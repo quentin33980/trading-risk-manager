@@ -1,32 +1,101 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Trading Risk Manager</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculateur de Risque Trading</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 20px;
+      background-color: white;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Trading Risk Manager</h1>
-    <form id="risk-form">
-      <label>Capital total (USDT): <input type="text" id="capital" required></label>
-      <label>Risque par trade (%): <input type="text" id="risk" step="0.01" required></label>
-      <label for="entry">Prix d'entrée :<input type="text" id="entry" required></label>
-      <label>Stop Loss : <input type="text" id="sl" step="0.01" required></label>
-      <label>TP1 (en points): <input type="text" id="tp1" step="0.01" required></label>
-      <label>TP2 (en points): <input type="text" id="tp2" step="0.01" required></label>
-      <label>Levier: <input type="text" id="leverage" step="0.1" required></label>
-      <label>Direction:
-        <select id="direction">
-          <option value="long">Long</option>
-          <option value="short">Short</option>
-        </select>
-      </label>
-      <button type="submit">Calculer</button>
-    </form>
-    <div id="result"></div>
-  </div>
-  <script src="script.js"></script>
+  <h1>Calculateur de Risque Trading</h1>
+  <label for="capital">Capital total (USDT)</label>
+  <input type="number" id="capital" step="any" />
+
+  <label for="risk">Risque % (perte max en cas de SL)</label>
+  <input type="number" id="risk" step="any" />
+
+  <label for="entry">Prix d'entrée</label>
+  <input type="number" id="entry" step="any" />
+
+  <label for="sl">Stop Loss</label>
+  <input type="number" id="sl" step="any" />
+
+  <label for="tp1">Take Profit 1</label>
+  <input type="number" id="tp1" step="any" />
+
+  <label for="tp2">Take Profit 2</label>
+  <input type="number" id="tp2" step="any" />
+
+  <button onclick="calculer()">Calculer</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculer() {
+      const capital = parseFloat(document.getElementById("capital").value);
+      const riskPercent = parseFloat(document.getElementById("risk").value);
+      const entry = parseFloat(document.getElementById("entry").value);
+      const sl = parseFloat(document.getElementById("sl").value);
+      const tp1 = parseFloat(document.getElementById("tp1").value);
+      const tp2 = parseFloat(document.getElementById("tp2").value);
+
+      if (isNaN(capital) || isNaN(riskPercent) || isNaN(entry) || isNaN(sl)) {
+        alert("Veuillez saisir des valeurs valides.");
+        return;
+      }
+
+      const riskAmount = capital * (riskPercent / 100);
+      const positionSize = riskAmount / Math.abs(entry - sl);
+      const investAmount = positionSize * entry;
+
+      const gainTP1 = (tp1 - entry) * positionSize;
+      const gainTP2 = (tp2 - entry) * positionSize;
+
+      const gainTP1Percent = (gainTP1 / capital) * 100;
+      const gainTP2Percent = (gainTP2 / capital) * 100;
+
+      document.getElementById("result").innerHTML = `
+        <strong>Montant à investir :</strong> ${investAmount.toFixed(2)} USDT<br />
+        <strong>Taille de position :</strong> ${positionSize.toFixed(2)} unités<br />
+        <strong>Gain si TP1 :</strong> ${gainTP1.toFixed(2)} USDT (${gainTP1Percent.toFixed(0)}%)<br />
+        <strong>Gain si TP2 :</strong> ${gainTP2.toFixed(2)} USDT (${gainTP2Percent.toFixed(0)}%)<br />
+      `;
+    }
+  </script>
 </body>
 </html>
