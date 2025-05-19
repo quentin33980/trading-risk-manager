@@ -45,18 +45,3 @@ document.getElementById('theme-toggle').addEventListener('click', function () {
   const isDark = document.body.classList.contains('dark');
   this.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
 });
-const themeToggle = document.getElementById('theme-toggle');
-const prefersDark = localStorage.getItem('theme') === 'dark';
-
-if (prefersDark) {
-  document.body.classList.add('dark');
-  themeToggle.textContent = '☀️ Mode clair';
-}
-
-themeToggle.addEventListener('click', function () {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  this.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-});
-
