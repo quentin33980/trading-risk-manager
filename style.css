@@ -52,3 +52,39 @@ button:hover {
   padding: 10px;
   border-radius: 5px;
 }
+/* Bouton toggle */
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #eee;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: #ddd;
+}
+
+/* Thème sombre */
+body.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark input,
+body.dark select {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body.dark .theme-toggle {
+  background: #444;
+  color: #fff;
+}
+
