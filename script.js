@@ -40,11 +40,8 @@ document.getElementById('risk-form').addEventListener('submit', function (e) {
 
   document.getElementById('result').innerHTML = result;
 });
-document.getElementById('theme-toggle').addEventListener('click', function () {
-  document.body.classList.toggle('dark');
-  const isDark = document.body.classList.contains('dark');
-  this.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
-});
+
+
 const toggleButton = document.createElement('button');
 toggleButton.textContent = '🌞 Mode clair';
 toggleButton.className = 'theme-toggle';
