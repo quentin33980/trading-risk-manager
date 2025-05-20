@@ -24,7 +24,6 @@ document.getElementById('risk-form').addEventListener('submit', function (e) {
   const tp1Ratio = (tp1 - entry) / entry;
   const tp2Ratio = (tp2 - entry) / entry;
 
-  // ✅ Nouveau calcul du montant à investir
   const investedAmount = riskAmount / (slRatio * leverage);
   const tp1Gain = investedAmount * tp1Ratio * leverage;
   const tp2Gain = investedAmount * tp2Ratio * leverage;
@@ -41,31 +40,50 @@ document.getElementById('risk-form').addEventListener('submit', function (e) {
   document.getElementById('result').innerHTML = result;
 });
 
+// Gestion du thème clair/sombre
+const toggleButton = document.getElementById('theme-toggle');
 
-const toggleButton = document.createElement('button');
-toggleButton.textContent = '🌞 Mode clair';
-toggleButton.className = 'theme-toggle';
-document.body.appendChild(toggleButton);
-
-// Fonction pour appliquer le thème selon le mode
 function applyTheme(theme) {
   if (theme === 'dark') {
     document.body.classList.add('dark');
-    toggleButton.textContent = '🌙 Mode sombre';
+    toggleButton.textContent = '🌞 Mode clair';
   } else {
     document.body.classList.remove('dark');
-    toggleButton.textContent = '🌞 Mode clair';
+    toggleButton.textContent = '🌙 Mode sombre';
   }
 }
 
-// Charger le thème depuis le localStorage au démarrage
 const savedTheme = localStorage.getItem('theme') || 'light';
 applyTheme(savedTheme);
 
-// Toggle quand on clique sur le bouton
 toggleButton.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
   const newTheme = isDark ? 'dark' : 'light';
   localStorage.setItem('theme', newTheme);
   applyTheme(newTheme);
+});
+// Gestion de l'affichage du panneau paramètres
+const settingsButton = document.getElementById('settings-button');
+const settingsPanel = document.getElementById('settings-panel');
+
+settingsButton.addEventListener('click', () => {
+  if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
+    settingsPanel.style.display = 'block';
+  } else {
+    settingsPanel.style.display = 'none';
+  }
+});
+const riskSlider = document.getElementById('risk-slider');
+const riskInput = document.getElementById('risk-input');
+
+// Synchronise l'input avec le slider
+riskSlider.addEventListener('input', () => {
+  riskInput.value = riskSlider.value;
+  document.getElementById('risk').value = riskSlider.value;
+});
+
+// Synchronise le slider avec l'input
+riskInput.addEventListener('input', () => {
+  riskSlider.value = riskInput.value;
+  document.getElementById('risk').value = riskInput.value;
 });

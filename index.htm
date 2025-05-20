@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,13 +6,27 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <button id="theme-toggle" class="theme-toggle">🌙 Mode sombre</button>
+
+  <!-- BOUTONS MODE + PARAMÈTRES -->
+  <div class="top-buttons">
+    <button id="theme-toggle" class="theme-toggle">🌙 Mode sombre</button>
+    <button id="settings-button" class="settings-button">⚙️</button>
+  </div>
+
+  <!-- PANNEAU PARAMÈTRES -->
+  <div id="settings-panel" class="settings-panel" style="display: none;">
+    <label for="risk-slider">Tolérance au risque :</label>
+    <input type="range" id="risk-slider" min="0" max="100" step="5">
+    <input type="number" id="risk-input" min="0.01" max="100" step="0.01"> %
+  </div>
+
+  <!-- FORMULAIRE -->
   <div class="container">
     <h1>Trading Risk Manager</h1>
     <form id="risk-form">
       <label>Capital total (USDT): <input type="text" id="capital" required></label>
       <label>Risque par trade (%): <input type="text" id="risk" step="0.01" required></label>
-      <label for="entry">Prix d'entrée :<input type="text" id="entry" required></label>
+      <label>Prix d'entrée :<input type="text" id="entry" required></label>
       <label>Stop Loss : <input type="text" id="sl" step="0.01" required></label>
       <label>TP1 (en points): <input type="text" id="tp1" step="0.01" required></label>
       <label>TP2 (en points): <input type="text" id="tp2" step="0.01" required></label>
@@ -28,6 +41,7 @@
     </form>
     <div id="result"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
