@@ -45,3 +45,30 @@ document.getElementById('theme-toggle').addEventListener('click', function () {
   const isDark = document.body.classList.contains('dark');
   this.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
 });
+const toggleButton = document.createElement('button');
+toggleButton.textContent = '🌞 Mode clair';
+toggleButton.className = 'theme-toggle';
+document.body.appendChild(toggleButton);
+
+// Fonction pour appliquer le thème selon le mode
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    document.body.classList.add('dark');
+    toggleButton.textContent = '🌙 Mode sombre';
+  } else {
+    document.body.classList.remove('dark');
+    toggleButton.textContent = '🌞 Mode clair';
+  }
+}
+
+// Charger le thème depuis le localStorage au démarrage
+const savedTheme = localStorage.getItem('theme') || 'light';
+applyTheme(savedTheme);
+
+// Toggle quand on clique sur le bouton
+toggleButton.addEventListener('click', () => {
+  const isDark = document.body.classList.toggle('dark');
+  const newTheme = isDark ? 'dark' : 'light';
+  localStorage.setItem('theme', newTheme);
+  applyTheme(newTheme);
+});
