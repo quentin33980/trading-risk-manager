@@ -32,13 +32,19 @@ document.getElementById('risk-form').addEventListener('submit', function (e) {
   for (let i = 0; i <= 5; i++) {
     const riskPercent = riskPercentBase + i;
     const riskAmount = capital * (riskPercent / 100);
-    const slRatio = Math.abs((entry - sl1) / entry);
+
+    // On choisit le SL principal pour le calcul du montant investi (SL2 prioritaire)
+    const selectedSL = sl2 !== null ? sl2 : sl1;
+    const selectedSLRatio = Math.abs((entry - selectedSL) / entry);
+
+    const investedAmount = leverage > 0 ? riskAmount / (selectedSLRatio * leverage) : 0;
+
+    const sl1Ratio = Math.abs((entry - sl1) / entry);
+    const sl2Ratio = sl2 ? Math.abs((entry - sl2) / entry) : null;
     const tp1Ratio = (tp1 - entry) / entry;
     const tp2Ratio = tp2 ? (tp2 - entry) / entry : null;
-    const sl2Ratio = sl2 ? Math.abs((entry - sl2) / entry) : null;
 
-    const investedAmount = leverage > 0 ? riskAmount / (slRatio * leverage) : 0;
-    const sl1Loss = investedAmount * slRatio * leverage;
+    const sl1Loss = investedAmount * sl1Ratio * leverage;
     const sl2Loss = sl2Ratio ? investedAmount * sl2Ratio * leverage : null;
     const tp1Gain = investedAmount * tp1Ratio * leverage;
     const tp2Gain = tp2Ratio ? investedAmount * tp2Ratio * leverage : null;
@@ -61,7 +67,6 @@ document.getElementById('risk-form').addEventListener('submit', function (e) {
     result += `📈 <strong>Direction :</strong> ${direction.toUpperCase()}
     </div>`;
   }
-
   document.getElementById('result').innerHTML = result;
 });
 
