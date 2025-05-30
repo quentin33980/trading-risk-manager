@@ -134,3 +134,21 @@ body.dark .settings-panel {
   color: white;
   border-color: #555;
 }
+#signal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#signal-input {
+  width: 80%;
+  max-width: 600px;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+  resize: vertical;
+}
+
